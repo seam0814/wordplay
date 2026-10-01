@@ -3,109 +3,171 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>끝말잇기 — 둘이서 하는 한글 단어 게임 (무료)</title>
-<meta name="description" content="친구랑 둘이서 번갈아 하는 끝말잇기! 폰 하나로 바로. 제한시간·중복 체크. 무료, 설치 없이 브라우저에서.">
+<title>통합 문서1 - Excel</title>
+<meta name="description" content="각자 PC에서 접속해 둘이 하는 온라인 끝말잇기. 방 링크 공유로 바로 연결(설치·회원가입 없음). 보스키(Esc)로 즉시 업무 화면 전환.">
 <link rel="canonical" href="https://seam0814.github.io/wordplay/">
 <style>
-  :root{--bg:#f4f7ff;--card:#fff;--fg:#232436;--muted:#7b7f98;--border:#e4e8f5;--accent:#4a6bff;--accent2:#8a5cff}
-  :root{--ok:#1aa86a;--bad:#e5484d}
-  @media(prefers-color-scheme:dark){:root{--bg:#14161f;--card:#1c1f2b;--fg:#eef0f7;--muted:#9aa0bd;--border:#2a2e3e}}
+  :root{--line:#d4d4d4;--head:#f3f3f3;--bar:#217346;--sel:#107c41;--accent:#4a6bff;--bad:#e5484d;--ok:#1aa86a}
   *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR",sans-serif;line-height:1.6}
-  .wrap{max-width:520px;margin:0 auto;padding:20px 18px 60px;text-align:center}
-  h1{font-size:1.6rem;margin:.2em 0}
-  p.sub{color:var(--muted);margin:.2em 0 1.2em}
-  .card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:24px;box-shadow:0 18px 44px -28px rgba(74,107,255,.5)}
-  .turn{font-size:1.2rem;font-weight:800;margin-bottom:4px}
-  .timer{font-size:3rem;font-weight:800;color:var(--accent);line-height:1}
-  .timer.warn{color:var(--bad)}
-  .need{margin:14px 0 6px;color:var(--muted)}
-  .need b{font-size:2.2rem;color:var(--accent2);display:block;margin-top:4px}
-  input{width:100%;padding:16px;font-size:1.4rem;text-align:center;border:2px solid var(--border);border-radius:14px;background:var(--bg);color:var(--fg);margin-top:8px}
-  input:focus{outline:none;border-color:var(--accent)}
-  .btn{display:block;width:100%;padding:15px;margin-top:12px;border:none;border-radius:14px;font-size:1.1rem;font-weight:700;color:#fff;background:linear-gradient(100deg,var(--accent),var(--accent2));cursor:pointer}
-  .btn.sec{background:transparent;color:var(--accent);border:2px solid var(--border)}
-  .msg{min-height:20px;margin-top:10px;font-weight:600}
-  .msg.bad{color:var(--bad)}.msg.ok{color:var(--ok)}
-  .chain{margin-top:16px;max-height:120px;overflow:auto;font-size:.9rem;color:var(--muted);text-align:left;background:var(--bg);border-radius:10px;padding:8px 12px}
-  .setup .row{display:flex;gap:10px}.setup input{font-size:1rem;text-align:left}
-  .field{flex:1;text-align:left}label{font-size:.82rem;color:var(--muted)}
-  .big{font-size:2rem;margin:.2em 0}
-  .hint{color:var(--muted);font-size:.8rem;margin-top:16px}
+  body{margin:0;font-family:"Calibri","맑은 고딕","Malgun Gothic",sans-serif;background:#e6e6e6;color:#222;font-size:14px}
+  .titlebar{background:var(--bar);color:#fff;padding:6px 12px;display:flex;justify-content:space-between}
+  .ribbon{background:var(--head);border-bottom:1px solid var(--line);padding:6px 12px;display:flex;gap:16px;color:#444;overflow-x:auto;white-space:nowrap}
+  .formbar{display:flex;align-items:center;gap:8px;background:#fff;border-bottom:1px solid var(--line);padding:4px 10px}
+  .namebox{width:54px;border:1px solid var(--line);padding:2px 6px;color:#444}.fx{color:#888}.formval{flex:1;color:#333}
+  .stage{max-width:620px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:4px;padding:26px}
+  h2{margin:.2em 0 .6em;color:#217346;font-size:1.3rem}
+  .muted{color:#777}
+  input,button{font:inherit}
+  .in{width:100%;padding:12px;border:1px solid var(--line);border-radius:6px;margin-top:6px}
+  .wordin{font-size:1.5rem;text-align:center;padding:16px}
+  .btn{display:block;width:100%;padding:14px;margin-top:12px;border:none;border-radius:8px;background:linear-gradient(100deg,#21a366,#107c41);color:#fff;font-size:1.05rem;font-weight:700;cursor:pointer}
+  .btn.sec{background:#f3f3f3;color:#217346;border:1px solid var(--line)}
+  .linkbox{display:flex;gap:8px;margin-top:10px}.linkbox input{flex:1}
+  .turn{font-size:1.2rem;font-weight:700}
+  .timer{font-size:2.6rem;font-weight:800;color:var(--accent)}.timer.warn{color:var(--bad)}
+  .need b{display:block;font-size:2rem;color:#8a5cff}
+  .msg{min-height:20px;margin-top:8px;font-weight:600}.msg.bad{color:var(--bad)}.msg.ok{color:var(--ok)}
+  .chain{margin-top:14px;max-height:130px;overflow:auto;text-align:left;background:#fafafa;border:1px solid var(--line);border-radius:6px;padding:8px 12px;color:#555;font-size:.95rem}
+  .center{text-align:center}
   .hide{display:none}
+  .hint{color:#999;font-size:12px;margin-top:14px}
+  /* boss overlay = 업무 화면 */
+  #boss{position:fixed;inset:0;background:#fff;z-index:50;display:none;overflow:auto}
+  #boss.show{display:block}
+  table{border-collapse:collapse}td,th{border:1px solid var(--line);height:26px;padding:3px 8px}
+  th{background:var(--head);color:#666}.rown{width:28px}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <h1>끝말잇기 🗣️</h1>
-  <p class="sub">폰 하나 놓고 둘이 번갈아! 제한시간 안에 단어를 이어보세요.</p>
+<div class="titlebar"><span>통합 문서1 - Excel</span><span>— ☐ ✕</span></div>
+<div class="ribbon"><b>파일</b> <span>홈</span> <span>삽입</span> <span>수식</span> <span>데이터</span> <span>검토</span> <span>보기</span></div>
+<div class="formbar"><span class="namebox">B2</span><span class="fx">fx</span><span class="formval">=IF(TURN=ME,"입력","대기")</span></div>
 
-  <div class="card setup" id="setup">
-    <div class="row">
-      <div class="field"><label>플레이어 1</label><input id="p1" value="플레이어 1" maxlength="8"></div>
-      <div class="field"><label>플레이어 2</label><input id="p2" value="플레이어 2" maxlength="8"></div>
+<div class="stage">
+  <!-- 로비 -->
+  <div id="lobby">
+    <h2>끝말잇기 (온라인 2인)</h2>
+    <p class="muted">각자 PC에서 접속해서 둘이 번갈아! 방을 만들어 링크를 친구에게 보내세요.</p>
+    <button class="btn" id="makeRoom">방 만들기</button>
+    <div id="linkArea" class="hide">
+      <p class="muted" style="margin-top:14px">이 링크를 상대에게 보내세요 👇</p>
+      <div class="linkbox"><input id="link" class="in" readonly><button class="btn sec" id="copy" style="width:auto;margin:0">복사</button></div>
+      <p class="muted" id="waitMsg" style="margin-top:10px">상대가 들어오길 기다리는 중…</p>
     </div>
-    <div class="field" style="margin-top:10px"><label>제한시간(초)</label><input id="sec" type="number" value="10" min="3" max="60"></div>
-    <button class="btn" id="start">게임 시작</button>
-    <p class="hint">규칙: 앞 단어의 <b>끝 글자</b>로 시작하는 2글자 이상 단어 입력 · 이미 쓴 단어 불가 · 시간 초과 시 패배. (진짜 단어인지는 서로 판단!)</p>
+    <p id="joinMsg" class="muted hide">상대 방에 연결 중…</p>
+    <p class="hint">Esc = 상사 왔을 때(업무 화면) · 다른 탭으로 넘어가면 자동 숨김</p>
   </div>
 
-  <div class="card hide" id="game">
-    <div class="turn" id="turn">플레이어 1 차례</div>
-    <div class="timer" id="timer">10</div>
+  <!-- 게임 -->
+  <div id="game" class="hide center">
+    <div class="turn" id="turn">—</div>
+    <div class="timer" id="timer">—</div>
     <div class="need">이 글자로 시작<b id="need">?</b></div>
-    <input id="word" autocomplete="off" autocapitalize="off" placeholder="단어 입력">
+    <input id="word" class="in wordin" autocomplete="off" placeholder="단어 입력" />
     <button class="btn" id="submit">입력!</button>
     <div class="msg" id="msg"></div>
     <div class="chain" id="chain"></div>
+    <p class="hint">Esc = 업무 화면 전환</p>
   </div>
 
-  <div class="card hide" id="over">
-    <div class="big" id="winner">🎉</div>
-    <p id="reason" class="sub"></p>
-    <button class="btn" id="again">다시 하기</button>
-    <button class="btn sec" id="home">처음으로</button>
+  <!-- 결과 -->
+  <div id="over" class="hide center">
+    <h2 id="winner">🎉</h2>
+    <p class="muted" id="reason"></p>
+    <button class="btn sec" id="back">로비로</button>
   </div>
-  <p class="hint">둘이 각자 폰으로 하고 싶으면? 온라인 '방' 기능이 필요해요(추후). 지금은 폰 하나로 번갈아 즐겨요!</p>
 </div>
 
+<div id="boss">
+  <div class="titlebar"><span>분기보고서_최종_v4.xlsx - Excel</span><span>— ☐ ✕</span></div>
+  <div class="ribbon"><b>파일</b> <span>홈</span> <span>삽입</span> <span>수식</span> <span>데이터</span></div>
+  <div class="formbar"><span class="namebox">C7</span><span class="fx">fx</span><span class="formval">=D7*1.1</span></div>
+  <div style="padding:12px"><table id="bsheet"></table><p class="hint">아무 키나 누르면 돌아갑니다…</p></div>
+</div>
+
+<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
 <script>
 (function(){
   var $=function(s){return document.querySelector(s)};
-  var names=["",""],limit=10,turn=0,need="",used={},timer=null,left=10,chain=[];
-  var lastCh=function(w){return w[w.length-1]};
-  function show(id){["setup","game","over"].forEach(function(x){$("#"+x).classList.toggle("hide",x!==id)})}
-  $("#start").addEventListener("click",function(){
-    names=[$("#p1").value.trim()||"플레이어 1",$("#p2").value.trim()||"플레이어 2"];
-    limit=Math.max(3,parseInt($("#sec").value)||10);
-    turn=0;need="";used={};chain=[];$("#chain").innerHTML="";$("#msg").textContent="";
-    $("#need").textContent="아무 단어";show("game");newTurn(true);$("#word").focus();
-  });
-  function newTurn(first){
-    $("#turn").textContent=names[turn]+" 차례";
-    $("#need").textContent=first?"아무 단어":need;
-    $("#word").value="";$("#word").focus();
-    left=limit;$("#timer").textContent=left;$("#timer").classList.remove("warn");
-    clearInterval(timer);timer=setInterval(tick,1000);
-  }
-  function tick(){left--;$("#timer").textContent=left;if(left<=3)$("#timer").classList.add("warn");
-    if(left<=0){clearInterval(timer);end(names[1-turn],names[turn]+"님 시간 초과! ⏰")}}
+  var peer,conn,myRole=0,connected=false;
+  var chain=[],turn=0,need="",used={},limit=12,timer=null,left=0,ended=false;
+  function show(id){["lobby","game","over"].forEach(function(x){$("#"+x).classList.toggle("hide",x!==id)})}
+  function lastCh(w){return w[w.length-1]}
   function msg(t,ok){var m=$("#msg");m.textContent=t;m.className="msg "+(ok?"ok":"bad")}
-  function submit(){
-    var w=$("#word").value.trim();
-    if(w.length<2){msg("2글자 이상 입력!");return}
-    if(need && w[0]!==need){msg("'"+need+"' (으)로 시작해야 해요!");return}
-    if(used[w]){msg("이미 나온 단어예요!");return}
-    // 통과
-    used[w]=1;chain.push(w);
-    $("#chain").innerHTML=chain.map(function(x,i){return (i+1)+". "+x}).reverse().join("<br>");
-    need=lastCh(w);turn=1-turn;clearInterval(timer);msg("좋아요!",true);newTurn(false);
+  function send(o){try{if(conn&&conn.open)conn.send(o)}catch(e){}}
+
+  // ---- 연결 ----
+  function host(){
+    peer=new Peer();myRole=0;
+    peer.on("open",function(id){
+      $("#makeRoom").classList.add("hide");$("#linkArea").classList.remove("hide");
+      $("#link").value=location.origin+location.pathname+"?room="+id;
+    });
+    peer.on("connection",function(c){conn=c;bind();});
+    peer.on("error",function(e){$("#waitMsg").textContent="연결 오류: "+(e.type||e)+" (새로고침 해보세요)";});
   }
+  function guest(room){
+    $("#makeRoom").classList.add("hide");$("#joinMsg").classList.remove("hide");
+    peer=new Peer();myRole=1;
+    peer.on("open",function(){conn=peer.connect(room,{reliable:true});conn.on("open",bind);});
+    peer.on("error",function(e){$("#joinMsg").textContent="연결 오류: "+(e.type||e)+" (링크 확인/새로고침)";});
+  }
+  function bind(){
+    connected=true;conn.on("data",onData);
+    conn.on("close",function(){if(!ended)endRaw("상대 연결이 끊겼어요 😢","")});
+    startGame();
+  }
+  function onData(m){
+    if(m.t==="word")applyWord(m.word);
+    else if(m.t==="over")endRaw(m.text,m.win);
+  }
+  // ---- 게임 ----
+  function startGame(){chain=[];turn=0;need="";used={};ended=false;show("game");msg("");$("#chain").innerHTML="";renderTurn();}
+  function myTurn(){return turn===myRole}
+  function renderTurn(){
+    $("#turn").textContent=myTurn()?"내 차례!":"상대 차례…";
+    $("#need").textContent=need||"아무 단어";
+    $("#word").disabled=!myTurn();$("#submit").disabled=!myTurn();
+    clearInterval(timer);
+    if(myTurn()){left=limit;$("#timer").textContent=left;$("#timer").classList.remove("warn");$("#word").value="";$("#word").focus();
+      timer=setInterval(function(){left--;$("#timer").textContent=left;if(left<=3)$("#timer").classList.add("warn");
+        if(left<=0){clearInterval(timer);send({t:"over",text:"내 시간 초과… 상대 승리! ⏰",win:"lose"});endRaw("시간 초과! 상대 승리 ⏰","lose")}},1000);
+    }else{$("#timer").textContent="…";}
+  }
+  function applyWord(w){used[w]=1;chain.push(w);
+    $("#chain").innerHTML=chain.map(function(x,i){return (i+1)+". "+x}).reverse().join("<br>");
+    need=lastCh(w);turn=1-turn;msg("");renderTurn();}
+  function submit(){
+    if(!myTurn())return;
+    var w=$("#word").value.trim();
+    if(w.length<2)return msg("2글자 이상!");
+    if(need&&w[0]!==need)return msg("'"+need+"'(으)로 시작!");
+    if(used[w])return msg("이미 나온 단어!");
+    applyWord(w);send({t:"word",word:w});
+  }
+  function endRaw(text,win){ended=true;clearInterval(timer);
+    $("#winner").textContent = win==="lose"?"아쉬워요 😢": win==="win"?"🎉 승리!":"게임 종료";
+    $("#reason").textContent=text+" (이어진 단어 "+chain.length+"개)";show("over");}
+  $("#makeRoom").addEventListener("click",host);
   $("#submit").addEventListener("click",submit);
-  $("#word").addEventListener("keydown",function(e){if(e.key==="Enter")submit()});
-  function end(winner,reason){clearInterval(timer);$("#winner").textContent="🎉 "+winner+" 승리!";$("#reason").textContent=reason+" 이어진 단어 "+chain.length+"개.";show("over")}
-  $("#again").addEventListener("click",function(){$("#start").click()});
-  $("#home").addEventListener("click",function(){show("setup")});
+  $("#word").addEventListener("keydown",function(e){if(e.key==="Enter"){e.preventDefault();submit()}});
+  $("#copy").addEventListener("click",function(){$("#link").select();try{document.execCommand("copy")}catch(e){}if(navigator.clipboard)navigator.clipboard.writeText($("#link").value);$("#copy").textContent="복사됨!"});
+  $("#back").addEventListener("click",function(){location.href=location.origin+location.pathname});
+
+  // ---- 스텔스(보스키 + blur 자동숨김) ----
+  var bs=$("#bsheet"),bh="<tr><th class='rown'></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th></tr>";
+  var rows=[["항목","1월","2월","3월","합계"],["매출","1,240","1,310","1,455","4,005"],["원가","720","760","810","2,290"],["영업이익","210","225","315","750"]];
+  rows.forEach(function(rw,i){bh+="<tr><th class='rown'>"+(i+1)+"</th>"+rw.map(function(x){return "<td>"+x+"</td>"}).join("")+"</tr>"});
+  bs.innerHTML=bh;
+  function bossShow(v){$("#boss").classList.toggle("show",v)}
+  window.addEventListener("keydown",function(e){if(e.key==="Escape"){bossShow(!$("#boss").classList.contains("show"));e.preventDefault();return}
+    if($("#boss").classList.contains("show"))bossShow(false);});
+  window.addEventListener("blur",function(){bossShow(true)});
+  document.addEventListener("visibilitychange",function(){if(document.hidden)bossShow(true)});
+
+  // 자동: ?room 있으면 게스트로
+  var room=new URLSearchParams(location.search).get("room");
+  if(room)guest(room); else show("lobby");
 })();
 </script>
 </body>
