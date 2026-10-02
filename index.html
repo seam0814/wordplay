@@ -162,8 +162,7 @@
   function bossShow(v){$("#boss").classList.toggle("show",v)}
   window.addEventListener("keydown",function(e){if(e.key==="Escape"){bossShow(!$("#boss").classList.contains("show"));e.preventDefault();return}
     if($("#boss").classList.contains("show"))bossShow(false);});
-  window.addEventListener("blur",function(){bossShow(true)});
-  document.addEventListener("visibilitychange",function(){if(document.hidden)bossShow(true)});
+  document.getElementById("boss").addEventListener("click",function(){bossShow(false)});
 
   // 자동: ?room 있으면 게스트로
   var room=new URLSearchParams(location.search).get("room");
